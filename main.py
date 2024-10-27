@@ -2,9 +2,13 @@ import discord
 import os
 from keep_alive import keep_alive
 
-client = discord.Client()
-channel1id = os.getenv('ID1')
-channel2id = os.getenv('ID2')
+intents = discord.Intents.default()
+intents.message_content = True
+
+client = discord.Client(intents=intents)
+
+channel1id = int(os.getenv('ID1'))
+channel2id = int(os.getenv('ID2'))
 
 
 @client.event
@@ -16,8 +20,8 @@ async def on_ready():
 async def on_message(message):
     if message.channel.id == channel1id:
         channeltosend = client.get_channel(channel2id)
-        await channeltosend.send(message.content, embed=message.embeds[0])
-
+        if channeltosend:
+            await channeltosend.send(message.content)
 
 keep_alive()
 client.run(os.getenv('TOKEN'))
