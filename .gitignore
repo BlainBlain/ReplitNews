@@ -33,3 +33,6 @@ build/
 *.pyd
 *.db
 *.sqlite3
+
+.env
+
